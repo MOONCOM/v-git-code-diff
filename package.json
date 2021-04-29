@@ -1,14 +1,19 @@
 {
   "name": "v-git-code-diff",
   "version": "0.1.0",
-  "private": true,
+  "author": "MOONCOM",
+  "private": false,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "serve": "vue-cli-service serve src/demo/main.js",
+    "build": "vue-cli-service build src/demo/main.js",
+    "lint": "vue-cli-service lint",
+    "build-component": "vue-cli-service build --target lib --name v-git-code-diff src/index.js"
   },
+  "main": "dist/v-highlight-component.common.js",
   "dependencies": {
     "core-js": "^3.6.5",
+    "element-ui": "^2.13.2",
+    "lodash": "^4.17.21",
     "vue": "^2.6.11"
   },
   "devDependencies": {
@@ -23,5 +28,12 @@
     "node-sass": "^4.12.0",
     "sass-loader": "^8.0.2",
     "vue-template-compiler": "^2.6.11"
-  }
+  },
+  "keywords": [
+    "vue",
+    "git",
+    "component",
+    "code-diff",
+    "merge request"
+  ]
 }

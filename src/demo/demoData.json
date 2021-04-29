@@ -1,0 +1,92 @@
+[
+  {
+    "aMode": "100644",
+    "bMode": "100644",
+    "deletedFile": false,
+    "diff": "@@ -2,6 +2,6 @@ FROM node:10.8.0\n WORKDIR /usr/src/app\n COPY package*.json ./\n RUN npm install\n-COPY . . \n+RUN npm run generate\n+COPY dist . \n EXPOSE 8000\n-CMD npm run dev\n",
+    "newFile": false,
+    "newPath": "Dockerfile",
+    "oldPath": "Dockerfile",
+    "renamedFile": false
+  },
+  {
+    "aMode": "100644",
+    "bMode": "100644",
+    "deletedFile": false,
+    "diff": "@@ -12,11 +12,13 @@ $ yarn install\n $ yarn run dev\n \n # build for production and launch server\n+# 这个build命令，之所以跟其他vue项目不同是因为这个项目是服务端渲染项目，这个是后面如果我们用node跑前端服务，打生产包的时候是用build命令。\n $ yarn run build\n $ yarn start\n \n # generate static project\n-$ yarn run generate\n+# 这个是静态化，打生产包的时候执行这个命令，把生成的dist文件夹放到服务器上，然后后台用ng直到这个文件就可以了。\n+$ yarn run g\n ```\n \n For detailed explanation on how things work, checkout [Nuxt.js docs]\u0028https://nuxtjs.org\u0029.\n",
+    "newFile": false,
+    "newPath": "README.md",
+    "oldPath": "README.md",
+    "renamedFile": false
+  },
+  {
+    "aMode": "100755",
+    "bMode": "100755",
+    "deletedFile": false,
+    "diff": "@@ -97,3 +97,4 @@ input[type=\"file\"].el-upload__input{\n .el-cascader-menu__item.is-active{\n   color: #fff;\n }\n+\n",
+    "newFile": false,
+    "newPath": "assets/css/element.less",
+    "oldPath": "assets/css/element.less",
+    "renamedFile": false
+  },
+  {
+    "aMode": "100755",
+    "bMode": "100755",
+    "deletedFile": false,
+    "diff": "@@ -8,6 +8,10 @@\n \n // 只手机端--\u003Exs\n @media \u0028max-width:767px\u0029 {\n+  .container{\n+    padding: 0 20px;\n+    margin-left: 20px;\n+  }\n   .language-card {\n     .card-header {\n       height: 60px;\n@@ -18,6 +22,17 @@\n       }\n     }\n   }\n+  #cosmo-footer{\n+    height: 92px !important;\n+  }\n+  #cosmo-header-bottom{\n+    height: 200px !important;\n+  }\n+  .advt {\n+    h1,p{\n+      text-align: center;\n+    }\n+  }\n }\n \n // ipad竖屏--\u003Esm\n@@ -32,11 +47,17 @@\n       }\n     }\n   }\n+  .advt {\n+    h1,p{\n+      text-align: center;\n+    }\n+  }\n }\n \n // pc--\u003Emd\n // 在超过pad屏之后\n @media \u0028min-width:@widthmd\u0029 {\n+\n   .language-card {\n     .card-header {\n       height: 100px;\n",
+    "newFile": false,
+    "newPath": "assets/css/media.less",
+    "oldPath": "assets/css/media.less",
+    "renamedFile": false
+  },
+  {
+    "aMode": "100644",
+    "bMode": "100644",
+    "deletedFile": false,
+    "diff": "@@ -1,54 +1,81 @@\n \u003Ctemplate\u003E\n   \u003Cdiv id=\"cosmo-banner\"\u003E\n-    \u003Cel-carousel\n-      :height=\"`${bannerHeight}px`\"\n-      trigger=\"click\"\n-      class=\"banner-container\"\u003E\n-      \u003Cel-carousel-item\n-        v-for=\"item in bannerimgs\"\n-        :key=\"item.name\"\n-        class=\"banner-item\"\u003E\n-        \u003C!-- \u003Cimg :src=\"item.url\"\u003E --\u003E\n-        \u003Cdiv\n-          :style=\"`background-image:url\u0028${item.url}\u0029`\"\n-          class=\"banner-image-container\" /\u003E\n-      \u003C/el-carousel-item\u003E\n-    \u003C/el-carousel\u003E\n+    \u003Cdiv v-swiper=\"swiperOption\"\u003E\n+      \u003Cdiv class=\"swiper-wrapper\"\u003E\n+        \u003Cdiv class=\"swiper-slide\" v-for=\"banner in banners\"\u003E\n+          \u003Cimg :src=\"banner.url\" width=\"100%\"\u003E\n+        \u003C/div\u003E\n+      \u003C/div\u003E\n+      \u003Cdiv class=\"swiper-pagination swiper-pagination-bullets\"\u003E\u003C/div\u003E\n+    \u003C/div\u003E\n   \u003C/div\u003E\n \u003C/template\u003E\n \n \u003Cscript\u003E\n-export default {\n-  props: {\n-    bannerimgs: { type: Array, default: \u0028\u0029 =\u003E [] }\n-  },\n-  data\u0028\u0029 {\n-    return {\n-      // activeIndex: '1' //  nav-list 默认显示item\n-      bannerHeight: 520\n+  export default {\n+    props: {\n+      bannerimgs: { type: Array, default: \u0028\u0029 =\u003E [] }\n+    },\n+    data\u0028\u0029 {\n+      return {\n+        banners: [\n+          {\n+            name: 'devops',\n+            url: require\u0028'../../assets/img/devops-banner.png'\u0029\n+          },\n+          {\n+            name: 'open-source',\n+            url: require\u0028'../../assets/img/open-source-banner.png'\u0029\n+          }\n+        ],\n+        swiperOption: {\n+          loop: true,\n+          slidesPerView: 'auto',\n+          centeredSlides: true,\n+          pagination: {\n+            el: '.swiper-pagination',\n+            dynamicBullets: true\n+          },\n+          on: {\n+            slideChange\u0028\u0029 {\n+              console.log\u0028'onSlideChangeEnd', this\u0029;\n+            },\n+            tap\u0028\u0029 {\n+              console.log\u0028'onTap', this\u0029;\n+            }\n+          }\n+        }\n+      }\n+    },\n+    mounted\u0028\u0029 {\n     }\n   }\n-}\n \u003C/script\u003E\n \n \u003Cstyle lang=\"scss\" scoped\u003E\n-#cosmo-banner {\n-  width: 100%;\n-  .banner-container {\n-    .el-carousel__container {\n-      .banner-item {\n-        .banner-image-container {\n-          width: 100%;\n-          height: 100%;\n-          background-position: center;\n-          background-size: cover;\n-        }\n-        img {\n+  #cosmo-banner {\n+    width: 100%;\n+  }\n+  .my-swiper {\n+    height: 520px;\n+    width: 100%;\n+    .swiper-wrapper{\n+      width: 100%;\n+      .swiper-slide {\n+        width: 100%;\n+        background-color: #eee;\n+        display: flex;\n+        justify-content: center;\n+        align-items: center;\n+        img{\n           width: 100%;\n-          height: inherit;\n         }\n       }\n     }\n+    .swiper-pagination {\n+      \u003E .swiper-pagination-bullet {\n+        background-color: red;\n+      }\n+    }\n   }\n-}\n \u003C/style\u003E\n",
+    "newFile": false,
+    "newPath": "components/banner/CosmoBanner.vue",
+    "oldPath": "components/banner/CosmoBanner.vue",
+    "renamedFile": false
+  },
+  {
+    "aMode": "100644",
+    "bMode": "100644",
+    "deletedFile": false,
+    "diff": "@@ -1,21 +1,26 @@\n \u003Ctemplate\u003E\n-  \u003Cel-card\n-    class=\"algorithm-card\"\n-    body-style=\"padding: 0;\"\u003E\n-    \u003Ch2 class=\"card-header\"\u003E{{ title }}\u003C/h2\u003E\n-    \u003Cdiv class=\"card-content\"\u003E\n-      \u003Cp class=\"desc\"\u003E\n-        {{ desc }}\n-      \u003C/p\u003E\n-    \u003C/div\u003E\n-  \u003C/el-card\u003E\n+  \u003Ca\n+    :href=\"linkUrl || `javascript:void\u00280\u0029`\"\n+    target=\"_blank\"\u003E\n+    \u003Cel-card\n+      class=\"algorithm-card\"\n+      body-style=\"padding: 0;\"\u003E\n+      \u003Ch2 class=\"card-header\"\u003E{{ title }}\u003C/h2\u003E\n+      \u003Cdiv class=\"card-content\"\u003E\n+        \u003Cp class=\"desc\"\u003E\n+          {{ desc }}\n+        \u003C/p\u003E\n+      \u003C/div\u003E\n+    \u003C/el-card\u003E\n+  \u003C/a\u003E\n \u003C/template\u003E\n \n \u003Cscript\u003E\n export default {\n   props: {\n     title: { type: String, default: '' },\n-    desc: { type: String, default: '' }\n+    desc: { type: String, default: '' },\n+    linkUrl: { type: String, default: '' }\n   }\n }\n \u003C/script\u003E\n",
+    "newFile": false,
+    "newPath": "components/cards/AlgorithmCard.vue",
+    "oldPath": "components/cards/AlgorithmCard.vue",
+    "renamedFile": false
+  },
+  {
+    "aMode": "100644",
+    "bMode": "100644",
+    "deletedFile": false,
+    "diff": "@@ -15,8 +15,16 @@\n     \u003C/div\u003E\n     \u003Cslot /\u003E\n     \u003Cdiv class=\"visible-content-control\"\u003E\n+      \u003C!-- 通用开发工具 --\u003E\n       \u003Ca\n-        v-if=\"showMoreBtn\"\n+        v-if=\"title === '通用开发工具' && showMoreBtn\"\n+        target=\"_brank\"\n+        href=\"http://doc.dev.cosmoplat.com/%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/PaaS%E5%B9%B3%E5%8F%B0%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/PaaS%E5%B9%B3%E5%8F%B0%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7\"\n+        class=\"develop-tools-more\"\u003E\n+        查看更多\n+      \u003C/a\u003E\n+      \u003Ca\n+        v-else-if=\"title !== '通用开发工具' && showMoreBtn\"\n         href=\"javascript:void\u00280\u0029\"\n         class=\"develop-tools-more\"\n         @click=\"showMore\"\u003E\n@@ -73,7 +81,7 @@ export default {\n     }\n     .desc {\n       margin: 20px auto;\n-      width: 50%;\n+      width: 80%;\n       line-height: 22px;\n       color: #999999;\n       font-size: 14px;\n",
+    "newFile": false,
+    "newPath": "components/container/ModuleContainer.vue",
+    "oldPath": "components/container/ModuleContainer.vue",
+    "renamedFile": false
+  },
+  {
+    "aMode": "100644",
+    "bMode": "100644",
+    "deletedFile": false,
+    "diff": "@@ -38,7 +38,8 @@ module.exports = {\n   css: [\n     'element-ui/lib/theme-chalk/display.css', // 控制不同设备显示隐藏的样式\n     'element-ui/lib/theme-chalk/index.css',\n-    '~assets/css/common.less'\n+    '~assets/css/common.less',\n+    'swiper/dist/css/swiper.css'\n   ],\n \n   /*\n@@ -48,7 +49,11 @@ module.exports = {\n     '@/plugins/element-ui',\n     '@/plugins/axios',\n     '@/plugins/vue-lazyload',\n-    '@/plugins/svg-icon'\n+    '@/plugins/svg-icon',\n+    {\n+      src: '~/plugins/vue-swiper',\n+      ssr: false\n+    }\n   ],\n \n   /*\n@@ -90,7 +95,7 @@ module.exports = {\n         config.module.rules.push\u0028{\n           enforce: 'pre',\n           test: /\\.\u0028js|vue\u0029$/,\n-          loader: 'eslint-loader',\n+          // loader: 'eslint-loader',\n           exclude: /\u0028node_modules\u0029/\n         }\u0029\n       }\n",
+    "newFile": false,
+    "newPath": "nuxt.config.js",
+    "oldPath": "nuxt.config.js",
+    "renamedFile": false
+  },
+  {
+    "aMode": "100644",
+    "bMode": "100644",
+    "deletedFile": false,
+    "diff": "@@ -18,7 +18,8 @@\n     \"element-ui\": \"^2.4.6\",\n     \"jquery\": \"^3.3.1\",\n     \"nuxt\": \"^2.0.0\",\n-    \"svg-sprite-loader\": \"^4.1.3\"\n+    \"svg-sprite-loader\": \"^4.1.3\",\n+    \"vue-awesome-swiper\": \"^3.1.3\"\n   },\n   \"devDependencies\": {\n     \"babel-eslint\": \"^8.2.1\",\n",
+    "newFile": false,
+    "newPath": "package.json",
+    "oldPath": "package.json",
+    "renamedFile": false
+  }
+]

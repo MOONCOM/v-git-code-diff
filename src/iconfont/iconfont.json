@@ -1,0 +1,93 @@
+{
+  "id": "2518353",
+  "name": "v-git-code-diff",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "12724865",
+      "name": "svg",
+      "font_class": "svg",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "20228671",
+      "name": "md",
+      "font_class": "md",
+      "unicode": "e621",
+      "unicode_decimal": 58913
+    },
+    {
+      "icon_id": "3092324",
+      "name": "文件",
+      "font_class": "wenjian",
+      "unicode": "e793",
+      "unicode_decimal": 59283
+    },
+    {
+      "icon_id": "1396491",
+      "name": "文件夹",
+      "font_class": "wenjianjia",
+      "unicode": "e62d",
+      "unicode_decimal": 58925
+    },
+    {
+      "icon_id": "2507243",
+      "name": "vue",
+      "font_class": "vue",
+      "unicode": "e737",
+      "unicode_decimal": 59191
+    },
+    {
+      "icon_id": "6883564",
+      "name": "js",
+      "font_class": "js",
+      "unicode": "e605",
+      "unicode_decimal": 58885
+    },
+    {
+      "icon_id": "9339682",
+      "name": "文件夹",
+      "font_class": "wenjianjia1",
+      "unicode": "e60c",
+      "unicode_decimal": 58892
+    },
+    {
+      "icon_id": "10817108",
+      "name": "icon/list/file",
+      "font_class": "file",
+      "unicode": "e606",
+      "unicode_decimal": 58886
+    },
+    {
+      "icon_id": "12897882",
+      "name": "css",
+      "font_class": "css",
+      "unicode": "e60a",
+      "unicode_decimal": 58890
+    },
+    {
+      "icon_id": "14287741",
+      "name": "右",
+      "font_class": "you",
+      "unicode": "e60e",
+      "unicode_decimal": 58894
+    },
+    {
+      "icon_id": "14602834",
+      "name": "下",
+      "font_class": "xia",
+      "unicode": "e633",
+      "unicode_decimal": 58931
+    },
+    {
+      "icon_id": "18714981",
+      "name": "html",
+      "font_class": "html",
+      "unicode": "e631",
+      "unicode_decimal": 58929
+    }
+  ]
+}
